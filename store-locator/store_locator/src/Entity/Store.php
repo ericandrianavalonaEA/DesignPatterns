@@ -19,11 +19,11 @@ class Store
     #[ORM\Column(length: 255)]
     private string $address;
 
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $city = null;
+    #[ORM\Column(length: 100)]
+    private string $city;
 
-    #[ORM\Column(length: 20, nullable: true)]
-    private ?string $postalCode = null;
+    #[ORM\Column(length: 20)]
+    private string $postalCode;
 
     #[ORM\Column(type: 'float')]
     private float $latitude;
@@ -58,23 +58,23 @@ class Store
         return $this;
     }
 
-    public function getCity(): ?string
+    public function getCity(): string
     {
         return $this->city;
     }
 
-    public function setCity(?string $city): self
+    public function setCity(string $city): self
     {
         $this->city = $city;
         return $this;
     }
 
-    public function getPostalCode(): ?string
+    public function getPostalCode(): string
     {
         return $this->postalCode;
     }
 
-    public function setPostalCode(?string $postalCode): self
+    public function setPostalCode(string $postalCode): self
     {
         $this->postalCode = $postalCode;
         return $this;
