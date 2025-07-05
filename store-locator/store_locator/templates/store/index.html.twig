@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Store Locator{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-sA+vx6kXbWKFQSIl0s54Qmt0bC2TBzdEF+1u5IFlg+4="
+        crossorigin=""/>
+    <style>
+        #map { height: 80vh; width: 100%; }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center my-4">Store Locator</h1>
+    <div id="map"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-Vue3R8B8gE+nobBOhtkQwq+1T+roDgFM/7W5x7qRykE="
+            crossorigin=""></script>
+    <script>
+        const map = L.map('map').setView([48.8566, 2.3522], 5);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        fetch('{{ path('api_stores') }}')
+            .then(r => r.json())
+            .then(stores => {
+                stores.forEach(store => {
+                    const marker = L.marker([store.latitude, store.longitude]).addTo(map);
+                    marker.bindPopup(`<strong>${store.name}</strong><br>${store.address}`);
+                });
+            });
+    </script>
+{% endblock %}
